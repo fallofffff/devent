@@ -8,7 +8,7 @@ Application screenshots are available inside the repository:
 
 👉 **Screenshots Folder:**  
 https://github.com/fallofffff/devent/tree/main/screenshoots
-
+https://github.com/fallofffff/devent/blob/main/screenshoots/photo_5814354506186166393_y.jpg
 ---
 
 ## Table of Contents
