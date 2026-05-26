@@ -1,0 +1,83 @@
+{
+  "project_info": {
+    "project_number": "230099903952",
+    "firebase_url": "https://devent-9e0a1-default-rtdb.firebaseio.com",
+    "project_id": "devent-9e0a1",
+    "storage_bucket": "devent-9e0a1.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:230099903952:android:121bcae8062dac95ed45d5",
+        "android_client_info": {
+          "package_name": "com.android.application"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "230099903952-klp0e7qt0squciefls7hrkabu81pnmq2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCaWO7ns9ay6VCdCXB2clrSUmoAX9IB-1Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "230099903952-klp0e7qt0squciefls7hrkabu81pnmq2.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "230099903952-k1ghb9gk4qkl7dbutm2ua6n8q6fn7uv3.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.devent"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:230099903952:android:6e6f4613a726bf02ed45d5",
+        "android_client_info": {
+          "package_name": "com.example.devent"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "230099903952-klp0e7qt0squciefls7hrkabu81pnmq2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCaWO7ns9ay6VCdCXB2clrSUmoAX9IB-1Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "230099903952-klp0e7qt0squciefls7hrkabu81pnmq2.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "230099903952-k1ghb9gk4qkl7dbutm2ua6n8q6fn7uv3.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.devent"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

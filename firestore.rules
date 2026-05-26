@@ -1,0 +1,115 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return signedIn() && request.auth.uid == userId;
+    }
+
+    function onlyChanged(fields) {
+      return request.resource.data.diff(resource.data).changedKeys().hasOnly(fields);
+    }
+
+    // Server timestamps are absent from request.resource.data during rule checks on create.
+    function isValidBookingCreate() {
+      let data = request.resource.data;
+      let keys = data.keys();
+      return data.userId == request.auth.uid
+        && data.isValidated == false
+        && keys.hasAll(['userId', 'eventId', 'eventTitle', 'eventImageUrl', 'eventDate', 'qrData', 'isValidated'])
+        && (
+          keys.hasOnly(['userId', 'eventId', 'eventTitle', 'eventImageUrl', 'eventDate', 'qrData', 'isValidated'])
+          || (
+            keys.hasOnly(['userId', 'eventId', 'eventTitle', 'eventImageUrl', 'eventDate', 'bookedAt', 'qrData', 'isValidated'])
+            && data.bookedAt is timestamp
+          )
+        );
+    }
+
+    function isTicketCountChange() {
+      return request.resource.data.availableTickets is int
+        && resource.data.availableTickets is int
+        && (
+          request.resource.data.availableTickets == resource.data.availableTickets - 1 ||
+          request.resource.data.availableTickets == resource.data.availableTickets + 1
+        );
+    }
+
+    match /users/{userId} {
+      allow read, write: if isOwner(userId);
+    }
+
+    match /events/{eventId} {
+      allow read: if signedIn();
+      allow create: if signedIn()
+        && request.resource.data.keys().hasOnly([
+          'title',
+          'description',
+          'date',
+          'location',
+          'organizerName',
+          'organizerId',
+          'organizerEmail',
+          'imageUrl',
+          'totalTickets',
+          'availableTickets',
+          'createdAt'
+        ])
+        && request.resource.data.organizerId == request.auth.uid
+        && request.resource.data.title is string
+        && request.resource.data.description is string
+        && request.resource.data.date is timestamp
+        && request.resource.data.location is string
+        && request.resource.data.organizerName is string
+        && request.resource.data.organizerEmail is string
+        && request.resource.data.imageUrl is string
+        && request.resource.data.totalTickets is int
+        && request.resource.data.availableTickets is int
+        && request.resource.data.totalTickets > 0
+        && request.resource.data.availableTickets == request.resource.data.totalTickets;
+      allow update: if signedIn()
+        && onlyChanged(['availableTickets'])
+        && isTicketCountChange();
+      allow delete: if signedIn() && resource.data.organizerId == request.auth.uid;
+    }
+
+    match /bookings/{bookingId} {
+      allow create: if signedIn() && isValidBookingCreate();
+
+      allow read: if signedIn();
+
+      allow update: if signedIn() && (
+        (resource.data.userId == request.auth.uid && onlyChanged(['qrData'])) ||
+        (
+          resource.data.get('eventId', '') != '' &&
+          get(/databases/$(database)/documents/events/$(resource.data.eventId)).data.organizerId == request.auth.uid &&
+          onlyChanged(['isValidated', 'validatedBy', 'validatedAt']) &&
+          request.resource.data.isValidated == true
+        )
+      );
+
+      allow delete: if signedIn() && resource.data.userId == request.auth.uid;
+    }
+
+    match /device_tokens/{tokenId} {
+      allow create, update: if signedIn() && request.resource.data.userId == request.auth.uid;
+      allow read, delete: if signedIn() && resource.data.userId == request.auth.uid;
+    }
+
+    match /notifications/{notificationId} {
+      allow read: if signedIn();
+      allow create: if signedIn()
+        && request.resource.data.keys().hasOnly([
+          'type',
+          'eventId',
+          'title',
+          'body',
+          'createdAt'
+        ]);
+    }
+  }
+}
