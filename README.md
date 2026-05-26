@@ -22,7 +22,9 @@ Application screenshots are available inside the repository:
   <img src="https://github.com/fallofffff/devent/blob/main/screenshoots/photo_5814354506186166401_y.jpg" width="220"/>
   <img src="https://github.com/fallofffff/devent/blob/main/screenshoots/photo_5814354506186166404_y.jpg" width="220"/>
   <img src="https://github.com/fallofffff/devent/blob/main/screenshoots/photo_5814354506186166403_y.jpg" width="220"/>
-  
+  <img src="https://github.com/fallofffff/devent/blob/main/screenshoots/photo_5814354506186166407_y.jpg" width="220"/>
+  <img src="https://github.com/fallofffff/devent/blob/main/screenshoots/photo_5814354506186166406_y.jpg" width="220"/>
+  <img src="https://github.com/fallofffff/devent/blob/main/screenshoots/photo_5814354506186166405_y.jpg" width="220"/>
   
 </p>
 ## Table of Contents
