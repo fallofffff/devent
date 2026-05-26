@@ -1,171 +1,200 @@
 # devent — Event Discovery & Ticket Booking
 
-> A Flutter mobile application for discovering events, booking tickets, and validating entry via QR codes. Built as part of a university CSE final project (Problem 2: Event Discovery & Ticket Booking System).
+> A Flutter mobile application for discovering events, booking tickets, and validating entry using QR codes.
+
+## 📸 Screenshots
+
+Application screenshots are available inside the repository:
+
+👉 **Screenshots Folder:**  
+https://github.com/fallofffff/devent/tree/main/screenshoots
 
 ---
 
 ## Table of Contents
 
-- [Overview](#overview)
-- [Features](#features)
-- [Tech Stack](#tech-stack)
-- [Project Structure](#project-structure)
-- [Prerequisites](#prerequisites)
-- [Firebase Setup](#firebase-setup)
-- [Local Setup](#local-setup)
-- [Running the App](#running-the-app)
-- [Firestore Security Rules](#firestore-security-rules)
-- [State Management](#state-management)
-- [Theme](#theme)
-- [Dependencies](#dependencies)
-- [Team](#team)
+- Overview
+- Features
+- Tech Stack
+- Project Structure
+- Prerequisites
+- Firebase Setup
+- Local Setup
+- Running the App
+- Firestore Security Rules
+- State Management
+- Theme
+- Dependencies
+- Firestore Data Model
 
 ---
 
 ## Overview
 
-**devent** solves the problem of fragmented event discovery and unreliable ticket management. Users can browse upcoming events, book tickets instantly, and receive a QR code that serves as their entry pass. Organizers can scan and validate that QR code at the door.
+**devent** is a Flutter-based Event Discovery & Ticket Booking platform developed as a university CSE final project.
 
-The app was designed around real user pain points identified through interviews with event organizers and attendees:
+The application solves common issues in event management by creating a centralized system where users can discover events, book tickets, manage booking history, and validate entries using QR technology.
 
-- Events are hard to find — promotions are scattered across social media
-- Ticket booking has no paper trail and is prone to fraud
-- Attendees have no single place to track their booking history
-- Organizers have no reliable way to validate entries at the gate
+The platform addresses several real-world problems:
+
+- Fragmented event promotions across social media
+- Unreliable manual ticket booking systems
+- Lack of booking history tracking
+- Weak ticket authentication and entry validation
+
+Users can browse events, reserve tickets instantly, receive QR-based tickets, and organizers can validate attendee access through QR scanning.
 
 ---
 
 ## Features
 
 | Feature | Description |
-|---|---|
-| Event listing & search | Browse all upcoming events; filter by title in real time |
-| Event detail view | Full event info — date, location, organizer, available tickets |
-| Ticket booking | One-tap booking that decrements available inventory atomically |
-| QR ticket generation | Each booking produces a unique QR code tied to the user and event |
-| QR validation | Organizer-facing scanner marks a booking as validated in Firestore |
-| Booking history | Users can view all past and upcoming bookings |
-| Push notifications | FCM + local notifications remind users 1 day before their event |
-| Dark mode | Full system-aware dark/light theme — black & white design language |
-| Auth | Email/password sign-up and sign-in via Firebase Auth |
+|----------|-------------|
+| Event Listing & Search | Browse available events and filter by title |
+| Event Details | View event description, organizer, date, venue, and ticket availability |
+| Ticket Booking | Reserve tickets with real-time inventory updates |
+| QR Ticket Generation | Generate unique QR codes for every booking |
+| QR Validation | Organizer QR scanner validates attendee entry |
+| Booking History | Track previous and upcoming reservations |
+| Push Notifications | Event reminders using FCM and local notifications |
+| Authentication | Firebase email/password login and registration |
+| Dark Mode | System-aware black & white UI theme |
 
 ---
 
 ## Tech Stack
 
 | Layer | Technology |
-|---|---|
-| Framework | Flutter (Dart, SDK `^3.12.0`) |
-| State management | Riverpod (`flutter_riverpod ^2.6.1` + `riverpod_annotation ^2.6.1`) |
-| Auth | Firebase Authentication (email/password) |
+|-------|-------------|
+| Framework | Flutter (Dart) |
+| State Management | Riverpod |
+| Authentication | Firebase Authentication |
 | Database | Cloud Firestore |
-| File storage | Firebase Storage (event images) |
-| Push notifications | Firebase Cloud Messaging (FCM) + `flutter_local_notifications` |
-| QR generation | `qr_flutter ^4.1.0` |
-| QR scanning | `mobile_scanner ^7.0.0` |
-| Code generation | `build_runner` + `riverpod_generator` |
+| Storage | Firebase Storage |
+| Notifications | Firebase Cloud Messaging + Local Notifications |
+| QR Generation | qr_flutter |
+| QR Scanning | mobile_scanner |
+| Code Generation | build_runner + riverpod_generator |
 
 ---
 
 ## Project Structure
 
-```
+```plaintext
 lib/
 ├── core/
-│   ├── firebase/          # Firebase initialization helpers
-│   ├── theme/             # AppTheme — light & dark ThemeData
-│   └── utils/             # Shared utilities (formatters, constants)
+│   ├── firebase/
+│   ├── theme/
+│   └── utils/
 │
 ├── features/
 │   ├── auth/
-│   │   ├── data/          # FirebaseAuthRepository implementation
-│   │   ├── domain/        # Auth interfaces & user model
-│   │   └── presentation/  # LoginScreen, RegisterScreen, AuthGate
+│   │   ├── data/
+│   │   ├── domain/
+│   │   └── presentation/
 │   │
 │   ├── events/
-│   │   ├── data/          # EventRepository (Firestore reads)
-│   │   ├── domain/        # Event model + fromFirestore/toFirestore
-│   │   └── presentation/  # HomeScreen, EventDetailScreen
+│   │   ├── data/
+│   │   ├── domain/
+│   │   └── presentation/
 │   │
 │   ├── booking/
-│   │   ├── data/          # BookingRepository (write + QR data)
-│   │   ├── domain/        # Booking model
-│   │   └── presentation/  # BookingConfirmationScreen, MyBookingsScreen, QRValidatorScreen
+│   │   ├── data/
+│   │   ├── domain/
+│   │   └── presentation/
 │   │
-│   └── notifications/     # FCM setup, local notification scheduling
+│   └── notifications/
 │
 ├── main.dart
-└── firebase_options.dart  # Generated by flutterfire CLI
+└── firebase_options.dart
 ```
 
 ---
 
 ## Prerequisites
 
-Make sure the following are installed before continuing:
+Install the following before setup:
 
-- [Flutter SDK](https://docs.flutter.dev/get-started/install) `>=3.12.0`
-- [Dart SDK](https://dart.dev/get-dart) (comes with Flutter)
-- [Firebase CLI](https://firebase.google.com/docs/cli) — `npm install -g firebase-tools`
-- [FlutterFire CLI](https://firebase.flutter.dev/docs/cli/) — `dart pub global activate flutterfire_cli`
-- Android Studio or Xcode (for emulator/simulator)
-- A Firebase project (see [Firebase Setup](#firebase-setup) below)
+- Flutter SDK `>=3.12.0`
+- Dart SDK
+- Firebase CLI
+- FlutterFire CLI
+- Android Studio / Xcode
+- Firebase Project
 
 ---
 
 ## Firebase Setup
 
-### 1. Create a Firebase project
+### 1. Create Firebase Project
 
-1. Go to [https://console.firebase.google.com](https://console.firebase.google.com)
-2. Click **Add project**, give it a name (e.g. `devent`), and finish the wizard
+Go to:
 
-### 2. Enable services
+https://console.firebase.google.com
 
-In the Firebase console, enable the following for your project:
+Create a new Firebase project.
 
-- **Authentication** → Sign-in method → Email/Password → Enable
-- **Cloud Firestore** → Create database → Start in **production mode** (rules are applied below)
-- **Firebase Storage** → Get started → default bucket is fine
-- **Cloud Messaging** → no extra setup needed; FCM is enabled by default
+### 2. Enable Services
 
-### 3. Register your app with FlutterFire
+Enable:
 
-From the root of the project, run:
+- Firebase Authentication
+- Cloud Firestore
+- Firebase Storage
+- Cloud Messaging
+
+### 3. Configure FlutterFire
+
+Run:
 
 ```bash
-flutterfire configure --project=<your-firebase-project-id>
+flutterfire configure --project=<your-project-id>
 ```
 
-This generates `lib/firebase_options.dart` with platform-specific credentials. **Never commit this file to a public repository if the project is private.**
+This generates:
 
-### 4. Deploy Firestore rules
+```plaintext
+lib/firebase_options.dart
+```
+
+### 4. Deploy Rules
 
 ```bash
 firebase deploy --only firestore:rules
 ```
 
-This uses the `firestore.rules` file already in the repo (see [Firestore Security Rules](#firestore-security-rules) below).
-
 ---
 
 ## Local Setup
 
+Clone the repository:
+
 ```bash
-# 1. Clone the repository
-git clone https://github.com/asdfrlife/devent.git
+git clone https://github.com/fallofffff/devent.git
 cd devent
+```
 
-# 2. Install dependencies
+Install dependencies:
+
+```bash
 flutter pub get
+```
 
-# 3. Run code generation (Riverpod providers + freezed models)
+Run code generation:
+
+```bash
 dart run build_runner build --delete-conflicting-outputs
+```
 
-# 4. Make sure firebase_options.dart exists (see Firebase Setup above)
-#    If not, run: flutterfire configure
+Configure Firebase if needed:
 
-# 5. Run the app
+```bash
+flutterfire configure
+```
+
+Run application:
+
+```bash
 flutter run
 ```
 
@@ -173,36 +202,56 @@ flutter run
 
 ## Running the App
 
+Debug mode:
+
 ```bash
-# Debug mode (hot reload enabled)
 flutter run
+```
 
-# Specific device
+Specific device:
+
+```bash
 flutter run -d <device-id>
+```
 
-# List available devices
+List devices:
+
+```bash
 flutter devices
+```
 
-# Release build (Android)
+Release APK:
+
+```bash
 flutter build apk --release
+```
 
-# Release build (iOS)
+iOS Release:
+
+```bash
 flutter build ipa --release
 ```
 
-> **Note:** Push notifications (FCM) do not work on iOS simulators. Test on a physical device for full notification support.
+> Push notifications require a physical device on iOS.
 
 ---
 
 ## Firestore Security Rules
 
-The `firestore.rules` file in the repo enforces the following access model:
+Access model:
 
-- **events** — any authenticated user can read; only admin writes (managed via Firebase console or a separate admin SDK)
-- **bookings** — a user can create their own booking and read only their own bookings; the QR validator screen can update `isValidated` on any booking (organizer flow)
-- **users** — a user can read and write only their own document
+### Events Collection
+- Authenticated users → Read access
+- Admin → Write access
 
-Deploy rules with:
+### Bookings Collection
+- Users → Create and read their own bookings
+- Organizer validator → Update validation status
+
+### Users Collection
+- Users can only access their own documents.
+
+Deploy rules:
 
 ```bash
 firebase deploy --only firestore:rules
@@ -212,91 +261,100 @@ firebase deploy --only firestore:rules
 
 ## State Management
 
-The app uses **Riverpod** throughout — no `setState`, `Provider`, `Bloc`, or `GetX`.
+The application uses **Riverpod** across the entire architecture.
 
-Key patterns used:
+Patterns used:
 
-- `StreamProvider` — listens to Firebase Auth state changes for the auth gate
-- `FutureProvider` — fetches event lists and booking history from Firestore
-- `AsyncNotifierProvider` — handles booking creation with loading/error/success states
-- All providers live in `*_providers.dart` files inside their feature's `data/` folder
-- Widgets only use `ref.watch` and `ref.read` — zero business logic in UI code
+- `StreamProvider`
+- `FutureProvider`
+- `AsyncNotifierProvider`
+
+Benefits:
+
+- Reactive UI updates
+- Separated business logic
+- Minimal widget complexity
+- Scalable architecture
 
 ---
 
 ## Theme
 
-The app uses a strict **black and white** design language with full dark mode support.
+The UI follows a strict **black & white design system** with full dark mode support.
 
-| Token | Light mode | Dark mode |
-|---|---|---|
-| Background | `#FFFFFF` | `#0A0A0A` |
-| Surface | `#F5F5F5` | `#1A1A1A` |
-| Primary | `#000000` | `#FFFFFF` |
-| Body text | `#1A1A1A` | `#F0F0F0` |
-| Muted text | `#6B6B6B` | `#9E9E9E` |
-| Accent | grayscale only — no color | |
+| Token | Light | Dark |
+|-------|-------|------|
+| Background | #FFFFFF | #0A0A0A |
+| Surface | #F5F5F5 | #1A1A1A |
+| Primary | #000000 | #FFFFFF |
+| Text | #1A1A1A | #F0F0F0 |
 
-Theme switches automatically with the system via `ThemeMode.system`. Users can also override it manually from the Settings screen.
+Supports:
+
+- System Theme
+- Manual Override
+- Dark Mode
 
 ---
 
 ## Dependencies
 
-### Runtime
+### Runtime Packages
 
-| Package | Version | Purpose |
-|---|---|---|
-| `flutter_riverpod` | `^2.6.1` | State management |
-| `riverpod_annotation` | `^2.6.1` | Code-gen annotations for providers |
-| `firebase_core` | `^3.15.1` | Firebase initialization |
-| `firebase_auth` | `^5.6.1` | Email/password authentication |
-| `cloud_firestore` | `^5.6.11` | NoSQL database |
-| `firebase_storage` | `^12.4.9` | Event image storage |
-| `firebase_messaging` | `^15.2.9` | Push notifications (FCM) |
-| `flutter_local_notifications` | `^19.4.0` | Local scheduled notifications |
-| `permission_handler` | `^11.3.1` | Runtime permissions (camera, notifications) |
-| `qr_flutter` | `^4.1.0` | QR code image generation |
-| `mobile_scanner` | `^7.0.0` | Camera-based QR code scanning |
-| `timezone` | `^0.10.1` | Timezone-aware notification scheduling |
-| `intl` | `^0.20.2` | Date/time formatting |
-| `cupertino_icons` | `^1.0.8` | iOS-style icons |
+- flutter_riverpod
+- firebase_core
+- firebase_auth
+- cloud_firestore
+- firebase_storage
+- firebase_messaging
+- flutter_local_notifications
+- permission_handler
+- qr_flutter
+- mobile_scanner
+- timezone
+- intl
 
-### Dev
+### Development Packages
 
-| Package | Version | Purpose |
-|---|---|---|
-| `build_runner` | `^2.5.4` | Code generation runner |
-| `riverpod_generator` | `^2.6.3` | Auto-generates Riverpod providers |
-| `flutter_lints` | `^6.0.0` | Lint rules |
+- build_runner
+- riverpod_generator
+- flutter_lints
 
 ---
 
 ## Firestore Data Model
 
-```
+```plaintext
 users/{uid}
-  name: String
-  email: String
-  createdAt: Timestamp
+  name
+  email
+  createdAt
 
 events/{eventId}
-  title: String
-  description: String
-  date: Timestamp
-  location: String
-  organizerName: String
-  imageUrl: String
-  totalTickets: int
-  availableTickets: int
-  createdAt: Timestamp
+  title
+  description
+  date
+  location
+  organizerName
+  imageUrl
+  totalTickets
+  availableTickets
+  createdAt
 
 bookings/{bookingId}
-  userId: String
-  eventId: String
-  eventTitle: String
-  eventDate: Timestamp
-  bookedAt: Timestamp
-  qrData: String        ← unique token: bookingId + userId + eventId
-  isValidated: bool
+  userId
+  eventId
+  eventTitle
+  eventDate
+  bookedAt
+  qrData
+  isValidated
 ```
+
+---
+
+## Team
+
+Developed as a **University CSE Final Project**.
+
+Project: **Problem 2 — Event Discovery & Ticket Booking System**
