@@ -27,8 +27,8 @@ Application screenshots are available inside the repository:
   <img src="https://github.com/fallofffff/devent/blob/main/screenshoots/photo_5814354506186166405_y.jpg" width="220"/>
   
 </p>
-## Table of Contents
 
+## Table of Contents
 - Overview
 - Features
 - Tech Stack
