@@ -13,9 +13,18 @@ Application screenshots are available inside the repository:
   <img src="https://github.com/fallofffff/devent/blob/main/screenshoots/photo_5814354506186166393_y.jpg" width="220"/>
   <img src="https://github.com/fallofffff/devent/blob/main/screenshoots/photo_5814354506186166394_y.jpg" width="220"/>
   <img src="https://github.com/fallofffff/devent/blob/main/screenshoots/photo_5814354506186166395_y.jpg" width="220"/>
+  <img src="https://github.com/fallofffff/devent/blob/main/screenshoots/photo_5814354506186166396_y.jpg" width="220"/>
+  <img src="https://github.com/fallofffff/devent/blob/main/screenshoots/photo_5814354506186166397_y.jpg" width="220"/>
+  <img src="https://github.com/fallofffff/devent/blob/main/screenshoots/photo_5814354506186166398_y.jpg" width="220"/>
+  <img src="https://github.com/fallofffff/devent/blob/main/screenshoots/photo_5814354506186166401_y.jpg" width="220"/>
+  <img src="https://github.com/fallofffff/devent/blob/main/screenshoots/photo_5814354506186166400_y.jpg" width="220"/>
+  <img src="https://github.com/fallofffff/devent/blob/main/screenshoots/photo_5814354506186166399_y.jpg" width="220"/>
+  <img src="https://github.com/fallofffff/devent/blob/main/screenshoots/photo_5814354506186166401_y.jpg" width="220"/>
+  <img src="https://github.com/fallofffff/devent/blob/main/screenshoots/photo_5814354506186166404_y.jpg" width="220"/>
+  <img src="https://github.com/fallofffff/devent/blob/main/screenshoots/photo_5814354506186166403_y.jpg" width="220"/>
+  
+  
 </p>
----
-
 ## Table of Contents
 
 - Overview
